@@ -223,12 +223,15 @@
 {
     [super viewDidLoad];
     
+    self.edgesForExtendedLayout = UIRectEdgeAll ^ UIRectEdgeTop;
+    
     [AMapServices sharedServices].apiKey = @"95ed2da3e9f4ece6319afbc437fc0b01";
     
     self.annotationArray = [NSMutableArray array];
     
     self.mapView = [[MAMapView alloc] initWithFrame:self.view.bounds];
     self.mapView.delegate = self;
+    self.mapView.showsIndoorMap = NO;
     [self.view addSubview:self.mapView];
     
     

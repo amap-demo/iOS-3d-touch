@@ -12,7 +12,7 @@
 #import "RouteTableViewCell.h"
 #import "RouteViewController.h"
 
-#define kMapInsets UIEdgeInsetsMake(20,20,20,20)
+#define kMapInsets UIEdgeInsetsMake(50,50,50,50)
 
 @interface POIPreviewViewController () <UITableViewDataSource, UITableViewDelegate, RouteTableViewCellDelegate, MAMapViewDelegate>
 
@@ -209,6 +209,7 @@
     self.mapView = [[MAMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height*0.36)];
     self.mapView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.5];
     self.mapView.mapType = MAMapTypeSatellite;
+    self.mapView.showsIndoorMap = NO;
     self.mapView.scrollEnabled = NO;
     self.mapView.zoomEnabled = NO;
     self.mapView.rotateCameraEnabled = NO;
