@@ -13,7 +13,8 @@
 
 const NSString *RouteViewStartTitle       = @"起点";
 const NSString *RouteViewDestinationTitle = @"终点";
-const NSInteger RouteViewPaddingEdge                    = 20;
+
+#define kMapInsets UIEdgeInsetsMake(60,50,50,50)
 
 @interface RouteViewController ()<MAMapViewDelegate, AMapSearchDelegate>
 
@@ -186,9 +187,7 @@ const NSInteger RouteViewPaddingEdge                    = 20;
     [self.naviRoute addToMapView:self.mapView];
     
     /* 缩放地图使其适应polylines的展示. */
-    [self.mapView setVisibleMapRect:[CommonUtility mapRectForOverlays:self.naviRoute.routePolylines]
-                        edgePadding:UIEdgeInsetsMake(RouteViewPaddingEdge, RouteViewPaddingEdge, RouteViewPaddingEdge, RouteViewPaddingEdge)
-                           animated:YES];
+    [self.mapView showOverlays:self.mapView.overlays edgePadding:kMapInsets animated:YES];
 }
 
 #pragma mark - RoutePlanning Search

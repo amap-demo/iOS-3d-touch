@@ -191,7 +191,7 @@
     [self.mapView addAnnotation:startAnnotation];
     [self.mapView addAnnotation:destinationAnnotation];
     
-    [self.mapView showAnnotations:@[startAnnotation,destinationAnnotation] edgePadding:kMapInsets animated:NO];
+    [self.mapView showAnnotations:@[startAnnotation, destinationAnnotation] edgePadding:kMapInsets animated:NO];
 }
 
 #pragma mark - Initialization

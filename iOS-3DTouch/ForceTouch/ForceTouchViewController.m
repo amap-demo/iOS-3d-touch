@@ -223,7 +223,7 @@
 {
     [super viewDidLoad];
     
-    self.edgesForExtendedLayout = UIRectEdgeAll ^ UIRectEdgeTop;
+    self.navigationController.navigationBar.translucent = NO;
     
     [AMapServices sharedServices].apiKey = @"95ed2da3e9f4ece6319afbc437fc0b01";
     
