@@ -44,7 +44,8 @@
     sleep(2);
     XCUIElement *mapElement = [[[[[[[app.otherElements containingType:XCUIElementTypeNavigationBar identifier:@"3D Touch Demo"] childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeOther] elementBoundByIndex:1];
     
-    XCUIElement *element1 = [[mapElement childrenMatchingType:XCUIElementTypeOther] elementBoundByIndex:8];
+    XCUIElementQuery *annos = [mapElement childrenMatchingType:XCUIElementTypeOther];
+    XCUIElement *element1 = [annos elementBoundByIndex:annos.count - 2];
     
     [element1 tap];
     
