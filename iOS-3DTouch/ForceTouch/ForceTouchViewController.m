@@ -142,6 +142,7 @@
         
         poiAnnotationView.canShowCallout = YES;
         poiAnnotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        poiAnnotationView.rightCalloutAccessoryView.accessibilityIdentifier = @"rightCalloutAccessoryView";
         
         return poiAnnotationView;
     }
@@ -237,7 +238,7 @@
     
     self.search = [[AMapSearchAPI alloc] init];
     self.search.delegate = self;
-
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated

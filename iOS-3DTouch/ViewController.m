@@ -25,7 +25,7 @@
     
     UIButton *showButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    [showButton setTitle:@"显示3DTouch示例" forState:UIControlStateNormal];
+    [showButton setTitle:@"3DTouch" forState:UIControlStateNormal];
     showButton.frame = CGRectMake(0, 0, 200, 40);
     showButton.center = self.view.center;
     
