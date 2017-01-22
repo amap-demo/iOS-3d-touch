@@ -167,16 +167,22 @@ const NSString *RouteViewDestinationTitle = @"终点";
 /* 展示当前路线方案. */
 - (void)presentCurrentCourse
 {
+    
+    AMapGeoPoint *startPoint = [AMapGeoPoint locationWithLatitude:self.startCoordinate.latitude longitude:self.startCoordinate.longitude]; //起点
+    
+    AMapGeoPoint *endPoint = [AMapGeoPoint locationWithLatitude:self.destinationCoordinate.latitude longitude:self.destinationCoordinate.longitude];  //终点
+    
+    
     /* 公交路径规划. */
     if (self.routePlanningType == AMapRoutePlanningTypeBus)
     {
-        self.naviRoute = [MANaviRoute naviRouteForTransit:[self.route.transits firstObject]];
+        self.naviRoute = [MANaviRoute naviRouteForTransit:[self.route.transits firstObject] startPoint:startPoint endPoint:endPoint];
     }
     /* 步行，驾车路径规划. */
     else
     {
         MANaviAnnotationType type = self.routePlanningType == AMapRoutePlanningTypeDrive ? MANaviAnnotationTypeDrive : MANaviAnnotationTypeWalking;
-        self.naviRoute = [MANaviRoute naviRouteForPath:self.route.paths[0] withNaviType:type];
+        self.naviRoute = [MANaviRoute naviRouteForPath:self.route.paths[0] withNaviType:type showTraffic:NO startPoint:startPoint endPoint:endPoint];
     }
     
     if (!self.naviRoute.routePolylines)

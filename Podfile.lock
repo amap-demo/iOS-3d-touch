@@ -1,5 +1,5 @@
 PODS:
-  - AMap3DMap (4.6.1):
+  - AMap3DMap (4.6.0):
     - AMapFoundation (~> 1.3)
   - AMapFoundation (1.3.3)
   - AMapSearch (4.4.1):
@@ -10,10 +10,10 @@ DEPENDENCIES:
   - AMapSearch
 
 SPEC CHECKSUMS:
-  AMap3DMap: eb6656fb441ed7eb310b3c121032e947d4d649e5
+  AMap3DMap: 0b1263f9e58d6f96df145c9d5012987aa13f67d9
   AMapFoundation: c086329a1f19afec00e4c197863665235eb43dc2
   AMapSearch: 16a50b493ad419e8b6b81bafdeca7570db52f28e
 
-PODFILE CHECKSUM: d2df4cfe68c84f43254ff0ec9bc00286824e657a
+PODFILE CHECKSUM: f747c0f461f5eb535553575052a200bb79135cb0
 
 COCOAPODS: 1.1.1

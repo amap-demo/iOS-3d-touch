@@ -4,8 +4,7 @@
 //
 //  Created by KuangYe on 15/11/18.
 //  Copyright © 2015年 AutoNavi. All rights reserved.
-//  3D Map SDK是直接导入的，search SDK是通过pod安装的。 因为coder code时,
-//  pod上的 3D Map SDK还不支持多实例。
+
 
 #import "ForceTouchViewController.h"
 #import "POIPreviewViewController.h"
