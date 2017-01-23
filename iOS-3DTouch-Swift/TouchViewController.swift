@@ -14,8 +14,7 @@ class TouchViewController: UIViewController, MAMapViewDelegate, AMapSearchDelega
     
     var mapView: MAMapView!         //地图
     var search: AMapSearchAPI!      // 地图内的搜索API类
-    
-    var selectedPOI: AMapPOI?
+    var selectedPOI: AMapPOI?  //被点选的点
     
     var poiAnnotationViews = [MAPinAnnotationView]()
 
@@ -69,6 +68,14 @@ class TouchViewController: UIViewController, MAMapViewDelegate, AMapSearchDelega
         }
     }
     
+    //生成POI详情页面
+    func createPOIDetailVC() -> POIDetailViewController {
+        let poiDetailVC: POIDetailViewController = POIDetailViewController(nibName: "POIDetailViewController", bundle: nil)
+        poiDetailVC.poi = self.selectedPOI
+        poiDetailVC.userLocaiton = self.mapView.userLocation.location
+        return poiDetailVC
+    }
+    
     // MARK: - UIViewControllerPreviewingDelegate
     
     //3DTouch刚触发的时候弹出的模态视图
@@ -93,6 +100,7 @@ class TouchViewController: UIViewController, MAMapViewDelegate, AMapSearchDelega
             
         }
         
+        //没有点击在任何一个Annotation的范围内
         if touchOnAnnotation == false {
             return nil
         }
@@ -104,9 +112,7 @@ class TouchViewController: UIViewController, MAMapViewDelegate, AMapSearchDelega
         
         self.selectedPOI = selectPoi
         
-        let poiDetailVC: POIDetailViewController = POIDetailViewController(nibName: "POIDetailViewController", bundle: nil)
-        poiDetailVC.poi = selectPoi
-        poiDetailVC.userLocaiton = self.mapView.userLocation.location
+        let poiDetailVC = self.createPOIDetailVC()
         poiDetailVC.isFrom3DTouchPresent = true
         poiDetailVC.preferredContentSize = CGSize.init(width: 0, height: 400)
         
@@ -117,11 +123,9 @@ class TouchViewController: UIViewController, MAMapViewDelegate, AMapSearchDelega
     //模态视图弹出后，继续按住屏幕不放，就会调用下面这句话，进入VC
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         
-        let poiDetailVC: POIDetailViewController = POIDetailViewController(nibName: "POIDetailViewController", bundle: nil)
-        poiDetailVC.poi = self.selectedPOI
-        poiDetailVC.userLocaiton = self.mapView.userLocation.location
-        
+        let poiDetailVC = self.createPOIDetailVC()
         self.show(poiDetailVC, sender: self)
+        
     }
     
     // MARK: - AMapSearchDelegate
@@ -164,9 +168,7 @@ class TouchViewController: UIViewController, MAMapViewDelegate, AMapSearchDelega
             
             self.selectedPOI = poiAnno.poi
             
-            let poiDetailVC: POIDetailViewController = POIDetailViewController(nibName: "POIDetailViewController", bundle: nil)
-            poiDetailVC.poi = poiAnno.poi
-            poiDetailVC.userLocaiton = self.mapView.userLocation.location
+            let poiDetailVC = self.createPOIDetailVC()
             
             self.navigationController?.pushViewController(poiDetailVC, animated: true)
         }

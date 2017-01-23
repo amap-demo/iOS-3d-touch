@@ -16,6 +16,7 @@ class POIDetailViewController: UIViewController, MAMapViewDelegate {
     var poi: AMapPOI!
     var userLocaiton: CLLocation!
     var isFrom3DTouchPresent = false
+    var currentPresentingViewController: UIViewController?  //事先存一下
     
     var startCoordinate: CLLocationCoordinate2D! //起始点经纬度
     var destinationCoordinate: CLLocationCoordinate2D! //终点经纬度
@@ -31,14 +32,16 @@ class POIDetailViewController: UIViewController, MAMapViewDelegate {
         
         self.title = poi.name
         
-        //模态弹出的话为0
         if isFrom3DTouchPresent {
-            self.mapViewTop.constant = 0
+            self.mapViewTop.constant = 0  //模态弹出的话为0
+            self.currentPresentingViewController = self.presentingViewController
         }
         
+        //起始点，终点
         self.startCoordinate = CLLocationCoordinate2DMake(self.userLocaiton.coordinate.latitude, self.userLocaiton.coordinate.longitude)
         self.destinationCoordinate = CLLocationCoordinate2DMake(CLLocationDegrees(self.poi.location.latitude), CLLocationDegrees(self.poi.location.longitude))
 
+        //mapView
         self.mapView.mapType = MAMapType.satellite
         self.mapView.delegate = self
         self.mapView.isScrollEnabled = false
@@ -50,6 +53,7 @@ class POIDetailViewController: UIViewController, MAMapViewDelegate {
         self.mapView.isShowTraffic = false
         self.mapView.isRotateEnabled = false
         
+        //xib views
         self.addressLabel.text = self.poi.address
         self.telLabel.text = self.poi.tel
         
@@ -81,9 +85,7 @@ class POIDetailViewController: UIViewController, MAMapViewDelegate {
         func previewActionForTitle(_ title: String, index: NSInteger, style: UIPreviewActionStyle = .default) -> UIPreviewAction {
             
             return UIPreviewAction(title: title, style: style) { previewAction, viewController in
-
                 self.showRoute(index:index)
-                
             }
             
         }
@@ -111,7 +113,17 @@ class POIDetailViewController: UIViewController, MAMapViewDelegate {
     // MARK: -Show Route
     
     func showRoute(index : NSInteger) {
-        print(index)
+        let routePlanVC: RoutePlanViewController = RoutePlanViewController(nibName: "RoutePlanViewController", bundle: nil)
+        routePlanVC.routeType = index
+        routePlanVC.startCoordinate = self.startCoordinate
+        routePlanVC.destinationCoordinate = self.destinationCoordinate
+        
+        if self.isFrom3DTouchPresent {  //模态弹出的话，必须用父容器来弹出下一个VC，因为self本身不在VC栈里了
+            self.currentPresentingViewController?.show(routePlanVC, sender: self)
+        } else {
+            self.show(routePlanVC, sender: self)
+        }
+        
     }
     
     

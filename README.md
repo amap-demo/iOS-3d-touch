@@ -14,6 +14,8 @@
 
 ## 核心难点 ##
 
+`Objective-C`
+
 ```
 /*检查是否支持3D touch功能*/
 - (void)check3DTouch
@@ -30,6 +32,7 @@
     }
 }
 ```
+
 ```
 /*实现3D touch delegate*/
 - (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location
@@ -87,3 +90,98 @@
     [self showViewController:commitController sender:self];
 }
 ```
+
+`Swift`
+
+```
+
+//是否支持3D Touch，如果支持，注册一下
+func check3DTouch() {
+    if #available(iOS 9.0, *) {
+        if self.traitCollection.forceTouchCapability == UIForceTouchCapability.available {
+            self.registerForPreviewing(with: self, sourceView: self.view)
+            print("3D Touch is available! Hurra!");
+        }
+    } else {
+        print("3D Touch is not available on this device. Sniff!");
+    }
+}
+
+//3DTouch刚触发的时候弹出的模态视图
+func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+
+    var touchOnAnnotation = false
+    var selectPoi: AMapPOI?
+
+    //找到点击的哪个点
+    for (_, poiAnnotationView) in self.poiAnnotationViews.enumerated() {
+
+        if poiAnnotationView.frame.contains(location) {
+
+            touchOnAnnotation = true;
+
+            let poiAnno: POIAnnotation = poiAnnotationView.annotation as! POIAnnotation
+
+            selectPoi = poiAnno.poi
+
+            break;
+        }
+
+    }
+
+    //没有点击在任何一个Annotation的范围内
+    if touchOnAnnotation == false {
+        return nil
+    }
+
+    // check if we're not already displaying a preview controller
+    if self.presentedViewController != nil {
+        return nil
+    }
+
+    self.selectedPOI = selectPoi
+
+    let poiDetailVC = self.createPOIDetailVC()
+    poiDetailVC.isFrom3DTouchPresent = true
+    poiDetailVC.preferredContentSize = CGSize.init(width: 0, height: 400)
+
+    return poiDetailVC
+
+}
+
+//模态视图弹出后，继续按住屏幕不放，就会调用下面这句话，进入VC
+func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+
+    let poiDetailVC = self.createPOIDetailVC()
+    self.show(poiDetailVC, sender: self)
+
+}
+
+//Preview Actions
+@available(iOS 9.0, *)
+lazy var previewActions: [UIPreviewActionItem] = {
+
+    func previewActionForTitle(_ title: String, index: NSInteger, style: UIPreviewActionStyle = .default) -> UIPreviewAction {
+
+        return UIPreviewAction(title: title, style: style) { previewAction, viewController in
+            self.showRoute(index:index)
+        }
+
+    }
+
+    let action1 = previewActionForTitle("步行",index:1)
+    let action2 = previewActionForTitle("公交",index:2)
+    let action3 = previewActionForTitle("驾车",index:3)
+
+    return [action1, action2, action3]
+
+}()
+
+@available(iOS 9.0, *)
+override var previewActionItems: [UIPreviewActionItem] {
+    return previewActions
+}
+
+
+```
+
