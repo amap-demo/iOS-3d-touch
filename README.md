@@ -157,6 +157,10 @@ func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit v
 
 }
 
+```
+
+```
+
 //Preview Actions
 @available(iOS 9.0, *)
 lazy var previewActions: [UIPreviewActionItem] = {
