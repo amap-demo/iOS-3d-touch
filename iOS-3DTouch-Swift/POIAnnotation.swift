@@ -18,13 +18,13 @@ class POIAnnotation: NSObject,MAAnnotation {
         }
     }
     
-    var title: String{
+    @objc var title: String{//因为这个title在SDK内部，会使用OC调用，所以必须添加@objc,否则会报unrecognized selector
         get {
             return self.poi.name
         }
     }
     
-    var subtitle: String {
+    @objc var subtitle: String {//同title一样，也需要添加@objc
         get {
             return self.poi.address
         }
